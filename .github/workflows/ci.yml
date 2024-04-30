@@ -38,7 +38,7 @@ jobs:
     - name: APT dependencies
       run: |
         sudo apt -y update
-        sudo apt install -y mpich libmpich-dev
+        sudo apt install -y mpich libmpich-dev cmake
 
     - name: nrsconfig and build
       run: |
