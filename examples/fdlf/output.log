@@ -1,0 +1,210 @@
+UTC time: Mon Jul  8 14:03:09 2024
+
+                 __    ____  _____
+   ____   ___   / /__ / __ \/ ___/
+  / __ \ / _ \ / //_// /_/ /\__ \ 
+ / / / //  __// ,<  / _, _/___/ / 
+/_/ /_/ \___//_/|_|/_/ |_|/____/  v23.0.0 (c729e8fb)
+
+COPYRIGHT (c) 2019-2023 UCHICAGO ARGONNE, LLC
+
+MPI tasks: 2
+
+reading par file ...
+Initializing device 
+active occa mode: Serial
+
+using NEKRS_HOME: /home/jez/.local/nekrs
+using NEKRS_CACHE_DIR: /home/jez/code/nekRS/examples/fdlf/.cache
+using OCCA_CACHE_DIR: /home/jez/code/nekRS/examples/fdlf/.cache/occa/
+
+skip building nekInterface (SIZE requires no update)
+loading nek ... done
+building udf ... 
+[32mPreprocessing CXX source to CMakeFiles/OKL.dir/okl.cpp.i[0m
+[35m[1mConsolidate compiler generated dependencies of target UDF[0m
+[100%] Built target UDF
+done (1.42691s)
+
+<<< #
+<<< # nek parameter file
+<<< #
+<<< [OCCA]
+<<<   backend = CPU
+<<< 
+<<< [GENERAL]
+<<< polynomialOrder = 7
+<<< dt = 1.0e-4
+<<< numsteps = 10000
+<<< writeInterval = 2000
+<<< 
+<<< #userParam01 = 0.01   #channel height [m]
+<<< #userParam02 = 0.5    #mean velocity [m/s]
+<<< #userParam03 = 300.0  #heat flux [W/m^2]
+<<< #userParam04 = 10     #inlet temperature [C]
+<<< 
+<<< [VELOCITY]
+<<< density = 1.2        #kg/m3
+<<< viscosity = 0.00002  #kg/m-s
+<<< boundaryTypeMap = v, o, sym, w
+<<< 
+<<< [TEMPERATURE]
+<<< rhoCp = 1200.0       #J/m3-K
+<<< conductivity = 0.025 #W/m-K
+<<< boundaryTypeMap = t, o, i, f
+
+
+<<< #include "udf.hpp"
+<<< 
+<<< 
+<<< void UDF_LoadKernels(occa::properties & kernelInfo)
+<<< {
+<<< }
+<<< 
+<<< void UDF_Setup(nrs_t *nrs)
+<<< {
+<<<   auto mesh = nrs->meshV;
+<<< 
+<<<   int n_gll_points = mesh->Np * mesh->Nelements;
+<<<   for (int n = 0; n < n_gll_points; ++n)
+<<<   {
+<<<     nrs->U[n + 0 * nrs->fieldOffset] = 0.0; // x-velocity
+<<<     nrs->U[n + 1 * nrs->fieldOffset] = 0.0; // y-velocity
+<<<     nrs->U[n + 2 * nrs->fieldOffset] = 0.5; // z-velocity
+<<< 
+<<<     nrs->P[n] = 0.0; // pressure
+<<< 
+<<<     nrs->cds->S[n + 0 * nrs->cds->fieldOffset[0]] = 0.0; // temperature
+<<<   }
+<<< }
+<<< 
+<<< void UDF_ExecuteStep(nrs_t *nrs, double time, int tstep)
+<<< {
+<<< }
+<<< 
+
+<<< #ifdef __okl__
+<<< 
+<<< #include "fdlf.oudf"
+<<< 
+<<< #endif
+<<< #ifdef __okl__
+<<< void meshVelocityDirichletConditions(bcData *bc){}
+<<< void velocityNeumannConditions(bcData *bc){}
+<<< void pressureDirichletConditions(bcData *bc){}
+<<< #endif
+<<< 
+
+loading udf kernels ... 
+done (0.000878016s)
+benchmarking hot kernels ...
+JIT compiling kernels (this may take awhile if they are not in cache) ...
+done (0.24421s)
+
+initializing linAlg ...
+wdotp: 2.441e-05s  (local: 2.266e-05s)
+
+ENABLE GS COMM OVERLAP disabled
+
+ reading fdlf.re2                                                                                                                            
+ hdr:#v002      250  3      250 hdr                                                  
+ reading mesh 
+   readp_re2_mesh:pack/cr/unpack : 0.93E-03 0.21E-04 0.14E-04
+   readp_re2_mesh:byte_read_mpi  : 0.24E-01
+ reading boundary faces                  110 for ifield   1
+   readp_re2_bc:pack/cr/unpack : 0.67E-05 0.12E-04 0.54E-05
+   readp_re2_bc:byte_read_mpi  : 0.15E-01
+ done :: read .re2 file    0.49E-01 sec
+
+parCon (tol = 2.000000e-01) finished in 0.00520504 s
+parRSB finished in 0.00214192 seconds.
+
+ reading mesh 
+   readp_re2_mesh:pack/cr/unpack : 0.79E-04 0.27E-04 0.17E-03
+   readp_re2_mesh:byte_read_mpi  : 0.29E-01
+ reading boundary faces                  110 for ifield   1
+   readp_re2_bc:pack/cr/unpack : 0.23E-04 0.43E-04 0.22E-04
+   readp_re2_bc:byte_read_mpi  : 0.11E-01
+ done :: read .re2 file    0.51E-01 sec
+
+ setup mesh topology
+   Right-handed check complete for         250 elements. OK.
+gs_setup: 288 unique labels shared
+   pairwise times (avg, min, max): 9.256e-07 9.037e-07 9.475e-07
+   crystal router                : 1.51655e-06 1.5127e-06 1.5204e-06
+   all reduce                    : 1.3305e-06 1.3301e-06 1.3309e-06
+   used all_to_all method: pairwise
+   handle bytes (avg, min, max): 302076 302076 302076
+   buffer bytes (avg, min, max): 4608 4608 4608
+   setupds time 9.9442E-03 seconds   0  8       47088         250
+ 
+ nElements   max/min/bal: 125 125 1.00
+ nMessages   max/min/avg: 1 1 1.00
+ msgSize     max/min/avg: 288 288 288.00
+ msgSizeSum  max/min/avg: 288 288 288.00
+ 
+ max multiplicity            4
+ done :: setup mesh topology
+  
+ call usrdat
+ done :: usrdat
+
+ generate geometry data
+ done :: generate geometry data
+  
+ call usrdat2
+ done :: usrdat2
+
+  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 xyz repair 1
+  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 xyz repair 2
+  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 xyz repair 3
+  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 xyz repair 4
+ regenerate geometry data           1
+ done :: regenerate geometry data           1
+  
+ regenerate geometry data           1
+ done :: regenerate geometry data           1
+  
+ verify mesh topology
+   0.0000000000000000       0.20000000000000001       Xrange
+   0.0000000000000000        5.0000000000000001E-003  Yrange
+   0.0000000000000000        1.0000000000000000       Zrange
+ done :: verify mesh topology
+  
+ call usrdat3
+ done :: usrdat3
+
+gridpoints unique/tot:        101088       128000
+dofs vel/pr:                   95200       100800
+ nek setup done in    2.5376E-01 s
+
+ set initial conditions
+ nekuic (1) for ifld            1
+ nekuic (1) for ifld            2
+ call nekuic for ifld            2
+ call nekuic for vel  
+ xyz min     0.0000       0.0000       0.0000    
+ uvwpt min   0.0000       0.0000       0.0000       0.0000       0.0000    
+ PS min      0.0000       0.0000       0.0000       0.0000    
+ xyz max    0.20000      0.50000E-02   1.0000    
+ uvwpt max   0.0000       0.0000       0.0000       0.0000       0.0000    
+ PS max      0.0000       0.0000       0.0000       0.0000    
+ done :: set initial conditions
+  
+calling nek_userchk ...
+
+generating mesh ...
+loading mesh from nek ... Nelements: 250, NboundaryIDs: 0, NboundaryFaces: 0 done (2.7095e-05s)
+polynomial order N: 7, over-integration order cubN: 10
+meshParallelGatherScatterSetup N=7
+timing gs: 1.43e-04s 8.17e-05s 1.47e-04s 1.50e-04s 1.24e-04s 
+used config: pw (MPI min/max/avg: 9.09e-07s 9.48e-07s 9.28e-07s / avg bi-bw: 5.0GB/s/rank)
+number of interior elements min/max:  0%   0%
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 1 in communicator MPI_COMM_WORLD
+with errorcode 1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------

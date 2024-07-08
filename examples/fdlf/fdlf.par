@@ -5,7 +5,7 @@
   backend = CPU
 
 [GENERAL]
-polynomialOrder = 5
+polynomialOrder = 7
 dt = 1.0e-4
 numsteps = 10000
 writeInterval = 2000
@@ -18,7 +18,9 @@ writeInterval = 2000
 [VELOCITY]
 density = 1.2        #kg/m3
 viscosity = 0.00002  #kg/m-s
+boundaryTypeMap = v, o, sym, w
 
 [TEMPERATURE]
 rhoCp = 1200.0       #J/m3-K
 conductivity = 0.025 #W/m-K
+boundaryTypeMap = t, o, i, f
