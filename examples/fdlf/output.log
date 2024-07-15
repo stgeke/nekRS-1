@@ -1,10 +1,10 @@
-UTC time: Mon Jul  8 14:03:09 2024
+UTC time: Mon Jul 15 08:47:21 2024
 
                  __    ____  _____
    ____   ___   / /__ / __ \/ ___/
   / __ \ / _ \ / //_// /_/ /\__ \ 
  / / / //  __// ,<  / _, _/___/ / 
-/_/ /_/ \___//_/|_|/_/ |_|/____/  v23.0.0 (c729e8fb)
+/_/ /_/ \___//_/|_|/_/ |_|/____/  v23.0.0 (b7d79dfc)
 
 COPYRIGHT (c) 2019-2023 UCHICAGO ARGONNE, LLC
 
@@ -18,19 +18,18 @@ using NEKRS_HOME: /home/jez/.local/nekrs
 using NEKRS_CACHE_DIR: /home/jez/code/nekRS/examples/fdlf/.cache
 using OCCA_CACHE_DIR: /home/jez/code/nekRS/examples/fdlf/.cache/occa/
 
-skip building nekInterface (SIZE requires no update)
+building nekInterface for lx1=8, lelt=128 and lelg=250 ... done (19.9657s)
 loading nek ... done
 building udf ... 
 [32mPreprocessing CXX source to CMakeFiles/OKL.dir/okl.cpp.i[0m
-[35m[1mConsolidate compiler generated dependencies of target UDF[0m
 [100%] Built target UDF
-done (1.42691s)
+done (2.35977s)
 
 <<< #
 <<< # nek parameter file
 <<< #
 <<< [OCCA]
-<<<   backend = CPU
+<<< backend = CPU
 <<< 
 <<< [GENERAL]
 <<< polynomialOrder = 7
@@ -46,12 +45,12 @@ done (1.42691s)
 <<< [VELOCITY]
 <<< density = 1.2        #kg/m3
 <<< viscosity = 0.00002  #kg/m-s
-<<< boundaryTypeMap = v, o, sym, w
+<<< boundaryTypeMap = v  ,o  ,sym,w  ,sym,sym
 <<< 
 <<< [TEMPERATURE]
 <<< rhoCp = 1200.0       #J/m3-K
 <<< conductivity = 0.025 #W/m-K
-<<< boundaryTypeMap = t, o, i, f
+<<< boundaryTypeMap = t  ,o  ,i  ,f  ,p  ,p  
 
 
 <<< #include "udf.hpp"
@@ -96,47 +95,47 @@ done (1.42691s)
 <<< 
 
 loading udf kernels ... 
-done (0.000878016s)
+done (0.938563s)
 benchmarking hot kernels ...
 JIT compiling kernels (this may take awhile if they are not in cache) ...
-done (0.24421s)
+done (106.321s)
 
 initializing linAlg ...
-wdotp: 2.441e-05s  (local: 2.266e-05s)
+wdotp: 2.672e-05s  (local: 2.578e-05s)
 
 ENABLE GS COMM OVERLAP disabled
 
  reading fdlf.re2                                                                                                                            
  hdr:#v002      250  3      250 hdr                                                  
  reading mesh 
-   readp_re2_mesh:pack/cr/unpack : 0.93E-03 0.21E-04 0.14E-04
-   readp_re2_mesh:byte_read_mpi  : 0.24E-01
- reading boundary faces                  110 for ifield   1
-   readp_re2_bc:pack/cr/unpack : 0.67E-05 0.12E-04 0.54E-05
-   readp_re2_bc:byte_read_mpi  : 0.15E-01
- done :: read .re2 file    0.49E-01 sec
+   readp_re2_mesh:pack/cr/unpack : 0.82E-03 0.28E-04 0.18E-04
+   readp_re2_mesh:byte_read_mpi  : 0.37E-01
+ reading boundary faces                  610 for ifield   1
+   readp_re2_bc:pack/cr/unpack : 0.11E-04 0.12E-04 0.13E-04
+   readp_re2_bc:byte_read_mpi  : 0.83E-02
+ done :: read .re2 file    0.53E-01 sec
 
-parCon (tol = 2.000000e-01) finished in 0.00520504 s
-parRSB finished in 0.00214192 seconds.
+parCon (tol = 2.000000e-01) finished in 0.00577288 s
+parRSB finished in 0.00160688 seconds.
 
  reading mesh 
-   readp_re2_mesh:pack/cr/unpack : 0.79E-04 0.27E-04 0.17E-03
-   readp_re2_mesh:byte_read_mpi  : 0.29E-01
- reading boundary faces                  110 for ifield   1
-   readp_re2_bc:pack/cr/unpack : 0.23E-04 0.43E-04 0.22E-04
-   readp_re2_bc:byte_read_mpi  : 0.11E-01
- done :: read .re2 file    0.51E-01 sec
+   readp_re2_mesh:pack/cr/unpack : 0.47E-04 0.24E-04 0.94E-04
+   readp_re2_mesh:byte_read_mpi  : 0.22E-01
+ reading boundary faces                  610 for ifield   1
+   readp_re2_bc:pack/cr/unpack : 0.22E-04 0.21E-04 0.31E-04
+   readp_re2_bc:byte_read_mpi  : 0.90E-02
+ done :: read .re2 file    0.39E-01 sec
 
  setup mesh topology
    Right-handed check complete for         250 elements. OK.
 gs_setup: 288 unique labels shared
-   pairwise times (avg, min, max): 9.256e-07 9.037e-07 9.475e-07
-   crystal router                : 1.51655e-06 1.5127e-06 1.5204e-06
-   all reduce                    : 1.3305e-06 1.3301e-06 1.3309e-06
+   pairwise times (avg, min, max): 1.0209e-06 9.973e-07 1.0445e-06
+   crystal router                : 1.7637e-06 1.7586e-06 1.7688e-06
+   all reduce                    : 1.5161e-06 1.5105e-06 1.5217e-06
    used all_to_all method: pairwise
    handle bytes (avg, min, max): 302076 302076 302076
    buffer bytes (avg, min, max): 4608 4608 4608
-   setupds time 9.9442E-03 seconds   0  8       47088         250
+   setupds time 1.0011E-02 seconds   0  8       47088         250
  
  nElements   max/min/bal: 125 125 1.00
  nMessages   max/min/avg: 1 1 1.00
@@ -175,8 +174,8 @@ gs_setup: 288 unique labels shared
  done :: usrdat3
 
 gridpoints unique/tot:        101088       128000
-dofs vel/pr:                   95200       100800
- nek setup done in    2.5376E-01 s
+dofs vel/pr:                   71400       100800
+ nek setup done in    2.1588E-01 s
 
  set initial conditions
  nekuic (1) for ifld            1
@@ -194,14 +193,14 @@ dofs vel/pr:                   95200       100800
 calling nek_userchk ...
 
 generating mesh ...
-loading mesh from nek ... Nelements: 250, NboundaryIDs: 0, NboundaryFaces: 0 done (2.7095e-05s)
+loading mesh from nek ... Nelements: 250, NboundaryIDs: 0, NboundaryFaces: 0 done (8.8928e-05s)
 polynomial order N: 7, over-integration order cubN: 10
 meshParallelGatherScatterSetup N=7
-timing gs: 1.43e-04s 8.17e-05s 1.47e-04s 1.50e-04s 1.24e-04s 
-used config: pw (MPI min/max/avg: 9.09e-07s 9.48e-07s 9.28e-07s / avg bi-bw: 5.0GB/s/rank)
+timing gs: 2.03e-04s 1.10e-04s 2.17e-04s 2.14e-04s 1.45e-04s 
+used config: pw (MPI min/max/avg: 1.04e-06s 1.07e-06s 1.06e-06s / avg bi-bw: 4.4GB/s/rank)
 number of interior elements min/max:  0%   0%
 --------------------------------------------------------------------------
-MPI_ABORT was invoked on rank 1 in communicator MPI_COMM_WORLD
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
 with errorcode 1.
 
 NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
