@@ -911,7 +911,7 @@ all functions used to apply boundary conditions that are built in to nekRS, as w
 problem-specific device functions.
 
 Boundary Condition Functions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+____________________________
 
 The type of condition to apply for each boundary is specified by the ``boundaryTypeMap`` parameter
 in the ``.par`` file. A character or longer-form word is used to indicate each boundary condition, where the
@@ -930,22 +930,22 @@ needed to apply that condition.
 
 .. table:: Flow Boundary Conditions
 
-  =========================================== ============================== =============================
-  Function                                    Character Map                  Purpose
-  =========================================== ============================== =============================
-  ``pressureDirichletConditions(bcData* bc)``                                Dirichlet pressure condition
-  ``velocityDirichletConditions(bcData* bc)`` ``v``, ``inlet``               Dirichlet velocity condition
-  ``velocityNeumannConditions(bcData* bc)``                                  Neumann velocity condition
-  N/A                                         ``p``                          Periodic
-  N/A                                         ``w``, ``wall``                No-slip wall for velocity
-  N/A                                         ``o``, ``outlet``, ``outflow`` Zero-gradient velocity
-  N/A                                         ``slipx``                      ?
-  N/A                                         ``slipy``                      ?
-  N/A                                         ``slipz``                      ?
-  N/A                                         ``symx``                       ?
-  N/A                                         ``symy``                       ?
-  N/A                                         ``symz``                       ?
-  =========================================== ============================== =============================
+  =========================================== ==================================================================== =============================
+  Function                                    Character Map                                                        Purpose
+  =========================================== ==================================================================== =============================
+  ``pressureDirichletConditions(bcData* bc)``                                                                      Dirichlet pressure condition
+  ``velocityDirichletConditions(bcData* bc)`` ``v``, ``mv``, ``inlet``, ``codedfixedvalue+moving``                 Dirichlet velocity condition
+  ``velocityNeumannConditions(bcData* bc)``                                                                        Neumann velocity condition
+  N/A                                         ``p``, ``periodic``                                                  Periodic
+  N/A                                         ``w``, ``wall``                                                      No-slip wall for velocity
+  N/A                                         ``o``, ``outlet``, ``outflow``                                       Zero-gradient velocity
+  N/A                                         ``slipx``                                                            ?
+  N/A                                         ``slipy``                                                            ?
+  N/A                                         ``slipz``                                                            ?
+  N/A                                         ``symx``                                                             ?
+  N/A                                         ``symy``                                                             ?
+  N/A                                         ``symz``                                                             ?
+  =========================================== ==================================================================== =============================
 
 .. _scalar_bcs:
 
